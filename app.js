@@ -1,5 +1,7 @@
+require('dotenv/config')
 const http = require('http')
 const PORT = process.env.PORT || 5050
+require('./db')
 
 const server = http.createServer(async (req, res) => {
     if (req.url === '/api' && req.method === 'GET') {
