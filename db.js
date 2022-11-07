@@ -14,7 +14,7 @@ const tables = {
 		id INT PRIMARY KEY AUTO_INCREMENT,
 		name VARCHAR(500) NOT NULL
 	)`,
-	reateIngredientTable: `CREATE TABLE IF NOT EXISTS Ingredient (
+	createIngredientTable: `CREATE TABLE IF NOT EXISTS Ingredient (
 		id INT PRIMARY KEY AUTO_INCREMENT,
 		name VARCHAR(500) NOT NULL,
 		withAmount VARCHAR(500)
