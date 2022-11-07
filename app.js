@@ -1,7 +1,7 @@
 require('dotenv/config')
 const http = require('http')
 const PORT = process.env.PORT || 5050
-const db = require('./db')
+require('./db')
 const Recipe = require('./controller')
 
 const server = http.createServer(async (req, res) => {

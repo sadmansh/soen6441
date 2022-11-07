@@ -16,7 +16,8 @@ const tables = {
 	)`,
 	reateIngredientTable: `CREATE TABLE IF NOT EXISTS Ingredient (
 		id INT PRIMARY KEY AUTO_INCREMENT,
-		name VARCHAR(500) NOT NULL
+		name VARCHAR(500) NOT NULL,
+		withAmount VARCHAR(500)
 	);`,
 	createFoodTypeRelationshipTable: `CREATE TABLE IF NOT EXISTS FoodTypeRelationship (
 		recipe INT NOT NULL,
