@@ -36,14 +36,24 @@ class Controller {
 	}
 
 	/* Get individual items of whatever we are working with */
-	async get(req) {
+	async getById(id) {
 		return new Promise((resolve, reject) => {
-			const item = store.find(i => i.id === parseInt(id))
-			if (item) {
-				resolve(item)
-			} else {
-				reject(`Item with id ${id} not found.`)
-			}
+			const query = `SELECT r.*, JSON_OBJECTAGG( i.name, i.amount ) AS ingredients,
+			JSON_ARRAYAGG( f.name ) AS types
+			FROM IngredientRelationship AS ir
+			JOIN Recipe AS r ON ir.Recipe = r.id
+			JOIN Ingredient AS i ON ir.Ingredient = i.id
+			JOIN FoodTypeRelationship AS fr ON fr.Recipe = r.id
+			JOIN FoodType AS f ON fr.FoodType = f.id
+			WHERE r.id = ${id}`
+
+			db.query(query, (err, result) => {
+				if (result) {
+					resolve(result)
+				} else {
+					reject(err)
+				}
+			})
 		})
 	}
 
