@@ -16,7 +16,8 @@ const tables = {
 	)`,
 	createIngredientTable: `CREATE TABLE IF NOT EXISTS Ingredient (
 		id INT PRIMARY KEY AUTO_INCREMENT,
-		name VARCHAR(500) NOT NULL UNIQUE
+		name VARCHAR(500) NOT NULL UNIQUE,
+		amount VARCHAR(500)
 	)`,
 	createFoodTypeRelationshipTable: `CREATE TABLE IF NOT EXISTS FoodTypeRelationship (
 		id INT PRIMARY KEY AUTO_INCREMENT,
@@ -33,7 +34,6 @@ const tables = {
 		id INT PRIMARY KEY AUTO_INCREMENT,
 		recipe INT NOT NULL,
 		ingredient INT NOT NULL,
-		amount VARCHAR(500),
 		CONSTRAINT constr_recipe_ingredient_fk
 			FOREIGN KEY (recipe) REFERENCES Recipe(id)
 			ON DELETE CASCADE ON UPDATE CASCADE,

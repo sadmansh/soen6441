@@ -24,21 +24,19 @@ recipes.forEach((row, index) => {
 
 	// Insert ingredients
 	row.extendedIngredients.forEach(ingredient => {
-		const amount = ingredient.original.replace(ingredient.nameClean, '').trim()
 		stmt = `
-			INSERT IGNORE INTO Ingredient (name) VALUES (?);
+			INSERT IGNORE INTO Ingredient (name, amount) VALUES (?, ?);
 		`
-		query = mysql.format(stmt, [ingredient.nameClean])
+		query = mysql.format(stmt, [ingredient.nameClean, ingredient.original])
 		insertQuery(query)
 		
 		stmt = `
-			INSERT INTO IngredientRelationship (recipe, ingredient, amount) VALUES (
+			INSERT INTO IngredientRelationship (recipe, ingredient) VALUES (
 				(SELECT id FROM Recipe WHERE title = ? LIMIT 1),
-				(SELECT id FROM Ingredient WHERE name = ? LIMIT 1),
-				?
+				(SELECT id FROM Ingredient WHERE name = ? LIMIT 1)
 			);
 		`
-		query = mysql.format(stmt, [row.title, ingredient.nameClean, amount])
+		query = mysql.format(stmt, [row.title, ingredient.nameClean])
 		insertQuery(query)
 	})
 
