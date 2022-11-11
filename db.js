@@ -3,7 +3,7 @@ const mysql = require('mysql')
 const tables = {
 	createRecipeTable: `CREATE TABLE IF NOT EXISTS Recipe(
 		id INT PRIMARY KEY AUTO_INCREMENT,
-		title VARCHAR(500) NOT NULL,
+		title VARCHAR(500) NOT NULL UNIQUE,
 		summary TEXT,
 		instructions TEXT,
 		image VARCHAR(500),
@@ -12,17 +12,16 @@ const tables = {
 	)`,
 	createFoodTypeTable: `CREATE TABLE IF NOT EXISTS FoodType (
 		id INT PRIMARY KEY AUTO_INCREMENT,
-		name VARCHAR(500) NOT NULL
+		name VARCHAR(500) NOT NULL UNIQUE
 	)`,
 	createIngredientTable: `CREATE TABLE IF NOT EXISTS Ingredient (
 		id INT PRIMARY KEY AUTO_INCREMENT,
-		name VARCHAR(500) NOT NULL,
-		withAmount VARCHAR(500)
-	);`,
+		name VARCHAR(500) NOT NULL UNIQUE
+	)`,
 	createFoodTypeRelationshipTable: `CREATE TABLE IF NOT EXISTS FoodTypeRelationship (
+		id INT PRIMARY KEY AUTO_INCREMENT,
 		recipe INT NOT NULL,
 		foodType INT NOT NULL,
-		PRIMARY KEY (recipe, foodType),
 		CONSTRAINT constr_recipe_foodtype_fk
 			FOREIGN KEY (recipe) REFERENCES Recipe(id)
 			ON DELETE CASCADE ON UPDATE CASCADE,
@@ -31,9 +30,10 @@ const tables = {
 			ON DELETE CASCADE ON UPDATE CASCADE
 	)`,
 	createIngredientRelationshipTable: `CREATE TABLE IF NOT EXISTS IngredientRelationship (
+		id INT PRIMARY KEY AUTO_INCREMENT,
 		recipe INT NOT NULL,
 		ingredient INT NOT NULL,
-		PRIMARY KEY (recipe, ingredient),
+		amount VARCHAR(500),
 		CONSTRAINT constr_recipe_ingredient_fk
 			FOREIGN KEY (recipe) REFERENCES Recipe(id)
 			ON DELETE CASCADE ON UPDATE CASCADE,
