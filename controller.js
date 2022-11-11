@@ -2,6 +2,7 @@ const fs = require('fs')
 const json = fs.readFileSync('store.json')
 const store = JSON.parse(json)
 const mysql = require('mysql')
+const url = require('url')
 
 const db = mysql.createPool({
 	host: process.env.DB_HOST,
@@ -14,8 +15,10 @@ const db = mysql.createPool({
 class Controller {
 	
 	/* Get all of whatever we are working with */
-	async getAll() {
+	async getAll(req) {
 		return new Promise((resolve, reject) => {
+			const params = url.parse(req.url, true).query
+			const offset = params.offset ? parseInt(params.offset) : null
 			const query = `SELECT r.*, JSON_OBJECTAGG( i.name, i.amount ) AS ingredients,
 			JSON_ARRAYAGG( f.name ) AS types
 			FROM IngredientRelationship AS ir
@@ -23,7 +26,7 @@ class Controller {
 			JOIN Ingredient AS i ON ir.Ingredient = i.id
 			JOIN FoodTypeRelationship AS fr ON fr.Recipe = r.id
 			JOIN FoodType AS f ON fr.FoodType = f.id 
-			GROUP BY r.id LIMIT 5`
+			GROUP BY r.id LIMIT 100${offset ? `, ${offset}` : ''}`
 
 			db.query(query, (err, result) => {
 				if (err) {

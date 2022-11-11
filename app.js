@@ -5,9 +5,9 @@ require('./db')
 const Recipe = require('./controller')
 
 const server = http.createServer(async (req, res) => {
-	if (req.url === '/api/recipes/all' && req.method === 'GET') {
+	if (req.url.match(/^\/api\/recipes\/all.*$/) && req.method === 'GET') {
 		res.writeHead(200, { 'Content-Type': 'application/json' })
-		const data = await new Recipe().getAll()
+		const data = await new Recipe().getAll(req)
 		res.end(JSON.stringify(data))
 	} else {
 		res.writeHead(400, { 'Content-Type': 'application/json' })
