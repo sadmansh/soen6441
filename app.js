@@ -6,14 +6,16 @@ require('./db')
 const Recipe = require('./controller')
 
 const server = http.createServer(async (req, res) => {
+	/* /api/recipes/all[?offset=[NUM]] */
 	if (req.url.match(/^\/api\/recipes\/all.*$/) && req.method === 'GET') {
 		const params = url.parse(req.url, true).query
 		const offset = params.offset ? parseInt(params.offset) : null
 		res.writeHead(200, { 'Content-Type': 'application/json' })
 		const data = await new Recipe().getAll(offset)
 		res.end(JSON.stringify(data))
-	} else if (req.url.match(/^\/api\/recipe\?id=.*$/) && req.method === 'GET') {
-		const id = parseInt(url.parse(req.url, true).query?.id)
+	} else if (req.url.match(/^\/api\/recipes\/([0-9]+)/) && req.method === 'GET') {
+		/* /api/recipes/:id */
+		const id = parseInt(req.url.split('/')[3])
 		const recipe = await new Recipe().getById(id)
 		res.writeHead(200, { 'Content-Type': 'application/json' })
 		res.end(JSON.stringify(recipe))
