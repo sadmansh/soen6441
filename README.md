@@ -20,3 +20,15 @@ Run the command `yarn fetch` to insert data from `store.json` into MySQL databas
 7. API returns data
 8. Client lists matched recipes
 9. User adds recipe/s to their personal list
+
+
+## Drop all tables
+```
+SET FOREIGN_KEY_CHECKS = 0;
+drop table if exists foodtype;
+drop table if exists foodtyperelationship;
+drop table if exists ingredient;
+drop table if exists ingredientrelationship;
+drop table if exists recipe;
+SET FOREIGN_KEY_CHECKS = 1;
+```
