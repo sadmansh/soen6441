@@ -13,6 +13,13 @@ const server = http.createServer(async (req, res) => {
 		res.writeHead(200, { 'Content-Type': 'application/json' })
 		const data = await new Recipe().getAll(offset)
 		res.end(JSON.stringify(data))
+	} else if (req.url.match(/^\/api\/recipes\/search\?term\=.*$/) && req.method === 'GET') {
+		/* /api/recipes/search?term=[TERM] */
+		const params = url.parse(req.url, true).query
+		const term = params.term ?? null
+		res.writeHead(200, { 'Content-Type': 'application/json' })
+		const data = await new Recipe().findRecipes(term)
+		res.end(JSON.stringify(data))
 	} else if (req.url.match(/^\/api\/recipes\/([0-9]+)/) && req.method === 'GET') {
 		/* /api/recipes/:id */
 		const id = parseInt(req.url.split('/')[3])

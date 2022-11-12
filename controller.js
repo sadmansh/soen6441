@@ -57,6 +57,34 @@ class Controller {
 		})
 	}
 
+	/* Find recipes matching a search term */
+	async findRecipes(term) {
+		return new Promise((resolve, reject) => {
+			const query = `SELECT r.*, JSON_OBJECTAGG( i.name, i.amount ) AS ingredients,
+			JSON_ARRAYAGG( f.name ) AS types
+			FROM IngredientRelationship AS ir
+			JOIN Recipe AS r ON ir.Recipe = r.id
+			JOIN Ingredient AS i ON ir.Ingredient = i.id
+			JOIN FoodTypeRelationship AS fr ON fr.Recipe = r.id
+			JOIN FoodType AS f ON fr.FoodType = f.id
+			WHERE 
+			r.title LIKE '%${term}%' OR
+			r.summary LIKE '%${term}%' OR
+			r.instructions LIKE '%${term}%' OR
+			i.name LIKE '%${term}%' OR
+			f.name LIKE '%${term}%'
+			GROUP BY r.id
+			`
+			db.query(query, (err, result) => {
+				if (result) {
+					resolve(result)
+				} else {
+					reject(err)
+				}
+			})
+		})
+	}
+
 	/* Create whatever we are working with */
 	async create(data) {
 		return new Promise((resolve, _) => {
