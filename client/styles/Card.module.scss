@@ -1,0 +1,27 @@
+.Card {
+	margin-bottom: 2rem;
+
+	.cardImage {
+		overflow: hidden;
+		aspect-ratio: 0.8;
+		border-radius: 6px;
+	}
+
+	.cardDesc {
+		padding: 1rem 0;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	h2 {
+		margin: 0;
+		font-size: 1rem;
+		font-weight: 400;
+		text-transform: uppercase;
+	}
+}

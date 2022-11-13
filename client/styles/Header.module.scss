@@ -1,0 +1,26 @@
+.Header {
+	padding: 1rem 0;
+	border-bottom: 1px solid #000;
+
+	:global {
+		.container {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			h1 {
+				margin: 0;
+				font-weight: 300;
+				font-size: 1rem;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+			}
+
+			form {
+				h2 {
+					display: none;
+				}
+			}
+		}
+	}
+}
