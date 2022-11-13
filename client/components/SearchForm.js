@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { use, useState } from 'react'
+import { useRouter } from 'next/router'
 
 const SearchForm = () => {
     const [term, setTerm] = useState(null)
+    const router = useRouter()
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
-        console.log(term)
+        router.push(`/search?term=${term}`)
     }
 
     return (

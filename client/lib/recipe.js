@@ -8,7 +8,13 @@ const getRecipesByIngredient = async (type) => {
 	return await res.json()
 }
 
+const searchRecipe = async (term) => {
+	const res = await fetch(`http://localhost:3000/api/recipes/search/${term}`)
+	return await res.json()
+}
+
 export {
 	getRecipesByType,
-	getRecipesByIngredient
+	getRecipesByIngredient,
+	searchRecipe
 }

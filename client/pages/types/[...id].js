@@ -18,7 +18,7 @@ const TypePage = ({ type, recipes }) => {
 
 					<div className="recipeCards">
 						{recipes?.map(recipe => (
-							<Card recipe={recipe} />
+							<Card key={recipe.id} recipe={recipe} />
 						))}
 					</div>
 				</div>
