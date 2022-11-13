@@ -1,6 +1,12 @@
 {
+  "scripts":{
+    "test": "mocha"
+  },
   "dependencies": {
+    "chai": "^4.3.7",
     "dotenv": "^16.0.3",
-    "mysql": "^2.18.1"
+    "mocha": "^10.1.0",
+    "mysql": "^2.18.1",
+    "supertest": "^6.3.1"
   }
 }
