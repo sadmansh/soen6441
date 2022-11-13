@@ -23,7 +23,7 @@ const IngredientsList = () => {
 			<ul>
 				{ingredients && ingredients.map(ingredient => (
 					<li key={ingredient.id}>
-						<Link href="">{ingredient.name}</Link>
+						<Link href={`/ingredients/${ingredient.id}`}>{ingredient.name}</Link>
 					</li>
 				))}
 			</ul>

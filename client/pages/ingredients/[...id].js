@@ -1,20 +1,20 @@
 import Head from 'next/head'
 import Header from '@/components/Header'
 import Card from '@/components/Card'
-import { getTypes } from '@/lib/type'
-import { getRecipesByType } from '@/lib/recipe'
+import { getIngredients } from '@/lib/ingredient'
+import { getRecipesByIngredient } from '@/lib/recipe'
 import styles from '@/styles/Type.module.scss'
 
-const TypePage = ({ type, recipes }) => {
+const IngredientPage = ({ ingredient, recipes }) => {
 	return (
 		<>
 			<Head>
 				<title>RecipeSpace</title>
 			</Head>
 			<Header />
-			<main className={styles.TypePage}>
+			<main className={styles.IngredientPage}>
 				<div className='container'>
-					<h1>{`All recipes tagged ${type?.name}`}</h1>
+					<h1>{`All recipes tagged ${ingredient?.name}`}</h1>
 
 					<div className="recipeCards">
 						{recipes?.map(recipe => (
@@ -29,14 +29,14 @@ const TypePage = ({ type, recipes }) => {
 
 export async function getStaticProps(context) {
 	const [id] = context.params.id
-	const types = await getTypes()
-	const type = types.find(t => t.id === parseInt(id))
+	const ingredients = await getIngredients()
+	const ingredient = ingredients.find(t => t.id === parseInt(id))
 	
-	const recipes = await getRecipesByType(type.id)
+	const recipes = await getRecipesByIngredient(ingredient.id)
 
 	return {
 		props: {
-			type,
+			ingredient,
 			recipes
 		},
 		revalidate: 1
@@ -44,10 +44,10 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-	const types = await getTypes()
-	const paths = types.map((type) => ({
+	const ingredients = await getIngredients()
+	const paths = ingredients.map((ingredient) => ({
 		params: {
-			id: [`${type.id}`]
+			id: [`${ingredient.id}`]
 		}
 	}))
 
@@ -57,4 +57,4 @@ export async function getStaticPaths() {
 	}
 }
 
-export default TypePage
+export default IngredientPage
