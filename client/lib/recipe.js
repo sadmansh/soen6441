@@ -18,9 +18,15 @@ const getAllRecipes = async (offset) => {
 	return await res.json()
 }
 
+const getRecipeById = async (id) => {
+	const res = await fetch(`http://localhost:3000/api/recipes/${id}`)
+	return await res.json()
+}
+
 export {
 	getRecipesByType,
 	getRecipesByIngredient,
 	searchRecipe,
-	getAllRecipes
+	getAllRecipes,
+	getRecipeById
 }

@@ -1,0 +1,51 @@
+.RecipePage {
+
+    .recipeImage {
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    .recipeTypes {
+        padding: 0;
+
+        li {
+            display: inline-block;
+            margin-right: 1rem;
+            list-style: none;
+            color: #006aff;
+        }
+    }
+
+    .recipeContent {
+        margin-top: 2rem;
+    }
+
+    .recipeSummary {
+        margin-bottom: 2rem;
+        line-height: 1.35;
+    }
+
+    .recipeInstructions {
+        line-height: 1.75;
+
+        li {
+            margin-bottom: 1rem;
+        }
+    }
+
+    .recipeIngredients {
+        margin-bottom: 2rem;
+
+        li {
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        a {
+            color: #006aff;
+        }
+    }
+}
