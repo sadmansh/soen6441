@@ -13,8 +13,14 @@ const searchRecipe = async (term) => {
 	return await res.json()
 }
 
+const getAllRecipes = async (offset) => {
+	const res = await fetch(`http://localhost:3000/api/recipes/all?offset=${offset}`)
+	return await res.json()
+}
+
 export {
 	getRecipesByType,
 	getRecipesByIngredient,
-	searchRecipe
+	searchRecipe,
+	getAllRecipes
 }

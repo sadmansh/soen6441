@@ -28,7 +28,7 @@ const IngredientsList = () => {
 				))}
 			</ul>
 			<button type="button" className={styles.button} onClick={() => setShowAll(!showAll)}>
-				{showAll ? 'See less' : 'See all'}
+				{showAll ? 'See less' : 'See all ingredients'}
 			</button>
 		</div>
 	)
