@@ -23,7 +23,7 @@ class Controller {
 			JOIN Ingredient AS i ON ir.Ingredient = i.id
 			JOIN FoodTypeRelationship AS fr ON fr.Recipe = r.id
 			JOIN FoodType AS f ON fr.FoodType = f.id 
-			GROUP BY r.id LIMIT 100${offset ? `, ${offset}` : ''}`
+			GROUP BY r.id LIMIT ${offset ? offset : 0}, 100`
 
 			db.query(query, (err, result) => {
 				if (err) {
@@ -49,7 +49,7 @@ class Controller {
 
 			db.query(query, (err, result) => {
 				if (result) {
-					resolve(result)
+					resolve(result[0])
 				} else {
 					reject(err)
 				}
