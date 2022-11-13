@@ -1,5 +1,6 @@
 {
   "scripts":{
+    "dev": "node src/app.js",
     "test": "mocha"
   },
   "dependencies": {

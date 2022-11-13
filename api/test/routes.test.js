@@ -1,7 +1,7 @@
 const expect = require('chai').expect
 const request = require('supertest')
 const baseUrl = 'localhost:5050'
-require('../app')
+require('../src/app')
 
 describe('GET: Get all recipes', () => {
 	it('Should get the first 100 recipes', (done) => {
