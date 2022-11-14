@@ -11,19 +11,34 @@ const db = mysql.createPool({
 	connectionLimit: 100
 })
 
-class Controller {
+class RecipeController {
 	
 	/* Get all of whatever we are working with */
 	async getAll(offset) {
 		return new Promise((resolve, reject) => {
-			const query = `SELECT r.*, JSON_OBJECTAGG( i.name, i.amount ) AS ingredients,
+			const query = `SELECT r.id, r.title, r.image, JSON_OBJECTAGG( i.name, i.amount ) AS ingredients,
 			JSON_ARRAYAGG( f.name ) AS types
 			FROM IngredientRelationship AS ir
 			JOIN Recipe AS r ON ir.Recipe = r.id
 			JOIN Ingredient AS i ON ir.Ingredient = i.id
 			JOIN FoodTypeRelationship AS fr ON fr.Recipe = r.id
 			JOIN FoodType AS f ON fr.FoodType = f.id 
-			GROUP BY r.id LIMIT ${offset ? offset : 0}, 100`
+			GROUP BY r.id LIMIT ${offset ? offset : 0}, 20`
+
+			db.query(query, (err, result) => {
+				if (err) {
+					reject(err)
+				} else {
+					resolve(result)
+				}
+			})
+		})
+	}
+
+	/* Get total number of recipes */
+	async getRecipeCount() {
+		return new Promise((resolve, reject) => {
+			const query = `SELECT COUNT(id) as count FROM Recipe`
 
 			db.query(query, (err, result) => {
 				if (err) {
@@ -38,8 +53,8 @@ class Controller {
 	/* Get individual items of whatever we are working with */
 	async getById(id) {
 		return new Promise((resolve, reject) => {
-			const query = `SELECT r.*, JSON_OBJECTAGG( i.name, i.amount ) AS ingredients,
-			JSON_ARRAYAGG( f.name ) AS types
+			const query = `SELECT r.*, JSON_OBJECTAGG( i.id, i.amount ) AS ingredients,
+			JSON_OBJECTAGG( f.id, f.name ) AS types
 			FROM IngredientRelationship AS ir
 			JOIN Recipe AS r ON ir.Recipe = r.id
 			JOIN Ingredient AS i ON ir.Ingredient = i.id
@@ -57,10 +72,48 @@ class Controller {
 		})
 	}
 
+	/* Get recipes by type */
+	async getByType(id) {
+		return new Promise((resolve, reject) => {
+			const query = `SELECT r.id, r.title, r.image
+			FROM FoodTypeRelationship fr
+			JOIN Recipe r ON fr.recipe = r.id
+			WHERE fr.foodType = ${id}
+			GROUP BY r.id
+			`
+			db.query(query, (err, result) => {
+				if (result) {
+					resolve(result)
+				} else {
+					reject(err)
+				}
+			})
+		})
+	}
+
+	/* Get recipes by ingredient */
+	async getByIngredient(id) {
+		return new Promise((resolve, reject) => {
+			const query = `SELECT r.id, r.title, r.image
+			FROM IngredientRelationship ir
+			JOIN Recipe r ON ir.recipe = r.id
+			WHERE ir.ingredient = ${id}
+			GROUP BY r.id
+			`
+			db.query(query, (err, result) => {
+				if (result) {
+					resolve(result)
+				} else {
+					reject(err)
+				}
+			})
+		})
+	}
+
 	/* Find recipes matching a search term */
 	async findRecipes(term) {
 		return new Promise((resolve, reject) => {
-			const query = `SELECT r.*, JSON_OBJECTAGG( i.name, i.amount ) AS ingredients,
+			const query = `SELECT r.id, r.title, r.image, JSON_OBJECTAGG( i.name, i.amount ) AS ingredients,
 			JSON_ARRAYAGG( f.name ) AS types
 			FROM IngredientRelationship AS ir
 			JOIN Recipe AS r ON ir.Recipe = r.id
@@ -109,7 +162,7 @@ class Controller {
 	}
 }
 
-module.exports = Controller
+module.exports = RecipeController
 
 
 
